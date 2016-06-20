@@ -30,6 +30,7 @@ def aavso_differential_photometry(instrument_mag, ref_star_instrument_mags,
     if (instrument_mag.shape != ref_star_instrument_mags or ref_star_instrument_mags != ref_star_ref_mags):
         raise ValueError('numpy array dimension mismatch')
     
+    # note: mag1 - mag2 = -2.5 log10 (flux1/flux2)
     differential_mag = instrument_mag - ref_star_instrument_mags
     standardized_mag = differential_mag + ref_star_ref_mags
     
