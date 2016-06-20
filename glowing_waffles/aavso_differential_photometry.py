@@ -1,4 +1,7 @@
-def aavso_differential_photometry(instrument_mag, ref_star_intrument_mags, ref_star_ref_mags):
+import numpy as np
+
+def aavso_differential_photometry(instrument_mag, ref_star_instrument_mags, 
+            ref_star_ref_mags):
     """
     Return differential photometry for each star in the table `instrument_mag`
     assuming that the rows indicted by `reference_stars`, with
@@ -7,14 +10,14 @@ def aavso_differential_photometry(instrument_mag, ref_star_intrument_mags, ref_s
     Parameters
     ----------
 
-    instrument_mag : array-like
+    instrument_mag : numpy.ndarray
         Instrumental magnitude for each of the sources on which photometry is
         to be performed.
-    ref_star_intrument_mags : array-like
+    ref_star_instrument_mags : numpy.ndarray
         Instrumental magnitude of each of the reference stars.
-    ref_star_ref_mags : array-like
+    ref_star_ref_mags : numpy.ndarray
         Reference magnitudes of each of the reference stars.
-
+        
     Returns
     -------
 
@@ -22,4 +25,13 @@ def aavso_differential_photometry(instrument_mag, ref_star_intrument_mags, ref_s
         Computed differential magnitude and error for each star in the
         `instrument_mag` array.
     """
+    
+    # ensure numpy arrays are the same dimensions
+    if (instrument_mag.shape != ref_star_instrument_mags or ref_star_instrument_mags != ref_star_ref_mags):
+        raise ValueError('numpy array dimension mismatch')
+    
+    differential_mag = instrument_mag - ref_star_instrument_mags
+    standardized_mag = differential_mag + ref_star_ref_mags
+    
+    return standardized_mag
     
